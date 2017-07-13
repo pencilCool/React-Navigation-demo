@@ -6,6 +6,7 @@ import {
   Text,View,Button
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import {TabNavigator} from "react-navigation"
 
 class HomeScreen extends React.Component {
     static navigationOptions = {
@@ -39,9 +40,31 @@ class ChatScreen extends React.Component {
   }
 }
 
+
+
+
+class RecentChatsScreen extends React.Component {
+  render() {
+    return <Text>List of recent chats</Text>
+  }
+}
+
+class AllContactsScreen extends React.Component {
+  render() {
+    return <Text>List of all contacts</Text>
+  }
+}
+
+const MainScreenNavigator = TabNavigator({
+  Recent: { screen: RecentChatsScreen },
+  All: { screen: AllContactsScreen },
+});
+
 const SimpleApp = StackNavigator({
   Home: { screen: HomeScreen },
   Chats: { screen: ChatScreen },
 });
 
-AppRegistry.registerComponent('AwesomeProject', ()  => SimpleApp);
+
+
+AppRegistry.registerComponent('AwesomeProject', ()  => MainScreenNavigator);
