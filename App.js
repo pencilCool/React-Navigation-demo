@@ -45,13 +45,28 @@ class ChatScreen extends React.Component {
 
 class RecentChatsScreen extends React.Component {
   render() {
-    return <Text>List of recent chats</Text>
+    return (
+<View>
+      <Text>List of recent chats</Text>
+            <Button
+            onPress={() => this.props.navigation.navigate('Chat', { user: 'Jane' })}
+        title="Chat with Jane"
+      />
+      </View>
+    )
   }
 }
 
 class AllContactsScreen extends React.Component {
   render() {
-    return <Text>List of all contacts</Text>
+
+    return (
+        <View>
+          <Text>List of all contacts</Text>
+          <Button   onPress={() => this.props.navigation.navigate('Chat', { user: 'Lucy' })}
+            title="Chat with Lucy"/>
+        </View>
+    )
   }
 }
 
@@ -60,11 +75,15 @@ const MainScreenNavigator = TabNavigator({
   All: { screen: AllContactsScreen },
 });
 
+MainScreenNavigator.navigationOptions = {
+  title: 'My Chats',
+};
+
 const SimpleApp = StackNavigator({
-  Home: { screen: HomeScreen },
-  Chats: { screen: ChatScreen },
+  Home: { screen: MainScreenNavigator },
+  Chat: { screen: ChatScreen },
 });
 
 
 
-AppRegistry.registerComponent('AwesomeProject', ()  => MainScreenNavigator);
+AppRegistry.registerComponent('AwesomeProject', ()  => SimpleApp);
