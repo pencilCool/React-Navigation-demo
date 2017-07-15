@@ -1,99 +1,79 @@
 
 
-import React from 'react';
-import {
-  AppRegistry,
-  Text,View,Button
-} from 'react-native';
-import { StackNavigator } from 'react-navigation';
-import {TabNavigator} from "react-navigation"
+import React, { Component } from 'react';
+import { ScrollView,Text, View,StyleSheet,Slider,AppRegistry,NavigatorIOS } from 'react-native';
 
-class HomeScreen extends React.Component {
-    static navigationOptions = {
-    title: 'Welcome in navation bar ',
-  };
+var List = React.createClass({
+
   render() {
-    const { navigate } = this.props.navigation;
-
+    // const { navigate } = this.props.navigation;
     return(
-        <View>
-        <Text>Hello, Chat APP!</Text>
-        <Button onPress = {() => navigate('Chats',{ user: 'Lucy -pencilCool' })}
-         title = "Chat with Lucy"
-        />
-        </View>
-    );
-  }
-}
+      <ScrollView style = {styles.flex}>
+        <Text style = {styles.list_item} onPress = {this.goTo} > pencilCool1 </Text>
+        <Text style = {styles.list_item} onPress = {this.goTo} > pencilCool2 </Text>
+        <Text style = {styles.list_item} onPress = {this.goTo} > pencilCool3 </Text>
+      </ScrollView>
+    )
+  },
 
-class ChatScreen extends React.Component {
-  static navigationOptions = ({navigation}) => {
-    const {state, setParams} = navigation;
-    const isInfo = state.params.mode === 'info';
-    const {user} = state.params;
-    return {
-      title: isInfo ? `${user} 's contacts Info`: `Chat with ${state.params.user}`,
-      headerRight: (
-        <Button title = {isInfo? 'Done': `${user}'s info`}
-        onPress={() => setParams({ mode: isInfo ? 'none' : 'info'})}
-        />
-      ),
-    };
-  };
-  render() {
-    const { params } = this.props.navigation.state;
+  goTo() {
+    this.props.navigator.push({
+        component: Detail,
+        title: '游轮详情',
+        rightButtonTitle: '购物',
+        onRightButtonPress: function(){
+          alert('进入我的购物车');
+        }
+    })
+  }
+});
+
+
+var Detail = React.createClass({
+  render(){
     return (
-      <View>
-        <Text>Chat with {params.user}</Text>
-      </View>
-    );
+      <ScrollView>
+        <Text> detail page </Text>
+        <Text> few information </Text>
+      </ScrollView>
+    )
   }
-}
+})
 
 
-
-
-class RecentChatsScreen extends React.Component {
+export default class NavigatorIOSApp extends React.Component {
   render() {
     return (
-<View>
-      <Text>List of recent chats</Text>
-            <Button
-            onPress={() => this.props.navigation.navigate('Chat', { user: 'Jane' })}
-        title="Chat with Jane"
+      <NavigatorIOS
+        initialRoute={{
+          component: List,
+          title: '游轮',
+          passProps:{},
+
+        }}
+        style={{flex: 1}}
       />
-      </View>
     )
   }
 }
 
-class AllContactsScreen extends React.Component {
-  render() {
 
-    return (
-        <View>
-          <Text>List of all contacts</Text>
-          <Button   onPress={() => this.props.navigation.navigate('Chat', { user: 'Lucy' })}
-            title="Chat with Lucy"/>
-        </View>
-    )
+var styles = StyleSheet.create({
+  flex: {
+    flex: 1
+  },
+  list_item: {
+    height:40,
+    marginLeft:50,
+    marginRight: 40,
+    borderBottomWidth:4,
+    borderBottomColor: '#dddd',
+    justifyContent:'center'
+  },
+  list_item_font: {
+    fontSize:18,
   }
-}
-
-const MainScreenNavigator = TabNavigator({
-  Recent: { screen: RecentChatsScreen },
-  All: { screen: AllContactsScreen },
-});
-
-MainScreenNavigator.navigationOptions = {
-  title: 'My Chats',
-};
-
-const SimpleApp = StackNavigator({
-  Home: { screen: MainScreenNavigator },
-  Chat: { screen: ChatScreen },
 });
 
 
-
-AppRegistry.registerComponent('AwesomeProject', ()  => SimpleApp);
+AppRegistry.registerComponent('AwesomeProject', ()  => NavigatorIOSApp);
