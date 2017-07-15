@@ -5,37 +5,64 @@ import {
   Text,
   AppRegistry,
   View,
-  TextInput, } from 'react-native';
+  TextInput,
+  TouchableHighlight,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 
 
-var Search = React.createClass({
-  render() {
-    return (
-      <View style = {[styles.flex, styles.flexDirection]}>
-        <View style = {styles.flex}>
-          <TextInput style = {styles.input} returnKeyType = "search"/>
-        </View>
-        <View style = {styles.btn}>
-          <Text style = {styles.search}>Search</Text>
-        </View>
-      </View>
-    )
-  }
-})
 
 var App = React.createClass({
+
+  show(text) {
+    alert(text);
+  },
   render() {
       return (
-        <View style = {[styles.flex,styles.topStatus]}>
-          <Search> </Search>
+        <View style = {[styles.flex]}>
+          <View>
+
+          <TouchableHighlight onPress = {this.show.bind(this, 'react-native-demo')}
+          underlayColor = "#e1f6ff">
+            <Text style = {styles.item}> React Native demo </Text>
+          </TouchableHighlight>
+
+
+          <TouchableHighlight onPress = {this.show.bind(this, 'pencilCool')}
+          underlayColor = "#11f6ff">
+            <Text style = {styles.item}> React Native demo </Text>
+          </TouchableHighlight>
+
+          <TouchableOpacity onPress = {this.show.bind(this,"test1")}>
+            <Text style = {styles.item}> test 1</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress = {this.show.bind(this,"test1")}>
+            <View style = {styles.btn}>
+              <Text style = {{fontSize:25, color :'#fff'}}> test2 </Text>
+            </View>
+
+          </TouchableOpacity>
+
+          </View>
         </View>
       )
   }
 });
 
+
+
+
+
+
+
+
+
 var styles = StyleSheet.create({
   flex:{
-    flex:1
+    flex:1,
+    marginTop:25,
   },
   flexDirection: {
     flexDirection: 'row'
@@ -52,13 +79,14 @@ var styles = StyleSheet.create({
     borderRadius: 4
   },
   btn:{
-    width:55,
-    marginLeft: -5,
-    marginRight: 5,
+    marginLeft: 30,
+    marginRight: 30,
     backgroundColor: '#23BEFF',
-    height: 45,
+    height:100,
+    width:100,
     justifyContent:'center',
-    alignItems: "center"
+    alignItems: "center",
+    borderRadius: 50,
   },
   search: {
     color: '#fff',
