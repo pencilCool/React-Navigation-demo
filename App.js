@@ -9,10 +9,70 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   Alert,
+  Image,
 } from 'react-native';
 
+var imgs = [
+  'https://koenig-media.raywenderlich.com/uploads/2017/06/basic-annoyed-1-1.png',
+  'https://koenig-media.raywenderlich.com/uploads/2017/04/starter.png',
+  'https://koenig-media.raywenderlich.com/uploads/2017/05/zoom0-1.png',
+];
 
+var MyImage = React.createClass({
+  getInitialState(){
+    var imgs = this.props.imgs;
+    return {
+      imgs:imgs,
+      count:0
+    };
+  },
 
+  goNext() {
+    var count = this.state.count;
+    count ++ ;
+    if(count < imgs.length) {
+      this.setState({
+          count: count
+      })
+    }
+  },
+  goPreView() {
+    var count = this.state.count;
+    count -- ;
+    if (count >= 0) {
+      this.setState({
+        count: count
+      });
+    }
+  },
+
+  render() {
+    return (
+      <View style = {[styles.flex]}>
+        <View style = {styles.image}>
+          <Image style = {styles.img}
+            source= {{url: this.state.imgs[this.state.count]}}
+            resizeMode = "contain"
+            />
+        </View>
+        <View style = {styles.btns}>
+          <TouchableOpacity onPress = {this.goPreView}>
+            <View style = {styles.btn}>
+              <Text>preview page </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress = {this.goNext}>
+            <View style = {styles.btn}>
+              <Text>next page </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+    )
+  }
+
+})
 var App = React.createClass({
 
   show(text) {
@@ -20,49 +80,18 @@ var App = React.createClass({
   },
   render() {
       return (
-        <View style = {[styles.flex]}>
-          <View>
-
-          <TouchableHighlight onPress = {this.show.bind(this, 'react-native-demo')}
-          underlayColor = "#e1f6ff">
-            <Text style = {styles.item}> React Native demo </Text>
-          </TouchableHighlight>
-
-
-          <TouchableHighlight onPress = {this.show.bind(this, 'pencilCool')}
-          underlayColor = "#11f6ff">
-            <Text style = {styles.item}> React Native demo </Text>
-          </TouchableHighlight>
-
-          <TouchableOpacity onPress = {this.show.bind(this,"test1")}>
-            <Text style = {styles.item}> test 1</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress = {this.show.bind(this,"test1")}>
-            <View style = {styles.btn}>
-              <Text style = {{fontSize:25, color :'#fff'}}> test2 </Text>
-            </View>
-
-          </TouchableOpacity>
-
-          </View>
+        <View style = {[styles.flex, {marginTop:40}]}>
+          <MyImage imgs = {imgs}></MyImage>
         </View>
       )
   }
 });
 
 
-
-
-
-
-
-
-
 var styles = StyleSheet.create({
   flex:{
     flex:1,
-    marginTop:25,
+    alignItems:'center'
   },
   flexDirection: {
     flexDirection: 'row'
@@ -78,21 +107,41 @@ var styles = StyleSheet.create({
     borderColor:'#ccc',
     borderRadius: 4
   },
-  btn:{
-    marginLeft: 30,
-    marginRight: 30,
-    backgroundColor: '#23BEFF',
-    height:100,
-    width:100,
+  btns: {
+    flexDirection:'row',
     justifyContent:'center',
-    alignItems: "center",
-    borderRadius: 50,
+    marginTop:20,
+  },
+
+  btn:{
+    width:60,
+    height:30,
+    borderColor :"#0089ff",
+    borderWidth: 1,
+    justifyContent:'center',
+    alignItems:'center',
+    borderRadius:3,
+    marginRight:20,
   },
   search: {
     color: '#fff',
     fontSize:15,
     fontWeight:'bold'
+  },
+  image:{
+    borderWidth:1,
+    width:300,
+    height:200,
+    borderRadius: 5,
+    borderColor:'#ccc',
+    justifyContent:'center',
+    alignItems:'center',
+  },
+  img: {
+    height:150,
+    width:200,
   }
+
 });
 
 AppRegistry.registerComponent('AwesomeProject',() => App)
