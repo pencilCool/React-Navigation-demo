@@ -13,6 +13,7 @@ ScrollView,
 AsyncStorage,
 TouchableOpacity,
 AlertIOS,
+ActionSheetIOS,
 } from 'react-native';
 
 var App = React.createClass({
@@ -20,47 +21,39 @@ var App = React.createClass({
     return (
       <View style = {styles.container}>
         <Text style = {styles.item} onPress = {this.tip}>
-          show dialog box
+          showActionSheetWithOptions
         </Text>
-        <Text style = {styles.item} onPress = {this.input}>
-          input diglog
+        <Text style = {styles.item} onPress = {this.share}>
+          showShareActionSheetWithOptions
         </Text>
       </View>
     );
   },
 
   tip() {
-    AlertIOS.alert('warn','choose to study react-native ',[
-      {
-        text: 'cancel',
-        onPress() {
-          alert('you click the cancel button');
-        }
-      },
-      {
-        text:'confirm',
-        onPress() {
-          alert('you click the confirm button');
-        }
-      }
-    ]);
+    ActionSheetIOS.showActionSheetWithOptions({
+      options:[
+        'make a call ',
+        'send email',
+        'send message',
+        'cancel'
+      ],
+      cancelButtonIndex:3,
+      destructiveButtonIndex: 0,
+    },function(index){
+      alert(index);
+    });
   },
 
-  input() {
-    AlertIOS.prompt('warn','use react-native to create an app',[
-      {
-        text: 'cancel',
-        onPress() {
-          alert('you choose cancel button');
-        }
-      },
-      {
-        text:'confirm',
-        onPress(e) {
-          alert(e);
-        }
-      },
-    ]);
+  share() {
+      ActionSheetIOS.showShareActionSheetWithOptions({
+        url:'https://code.facebook.com',
+      },function(err){
+        alert(err);
+      },function(e){
+        alert(e);
+      });
+
   }
 
 });
